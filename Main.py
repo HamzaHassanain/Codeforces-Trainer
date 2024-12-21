@@ -54,13 +54,13 @@ buttons_frame = Frame(root, bg="#ededed")
 buttons_frame.pack(pady=40)
 # new button start
 new_button = Button(buttons_frame, text="New", width=5, height=1, relief="solid",
-                    borderwidth=1, bg="#bdbdbd", command=open_info_tap)
+                    borderwidth=1, bg="#bdbdbd", command=open_info_tap ,padx=20,pady=10)
 new_button.grid(row=0, column=1, padx=50)
 # new button end
 
 # load button start
 load_button = Button(buttons_frame, text="Load", width=5, height=1, relief="solid",
-                     borderwidth=1, bg="#bdbdbd", command=load_tap)
+                     borderwidth=1, bg="#bdbdbd", command=load_tap , padx=20,pady=10)
 load_button.grid(row=0, column=2, padx=50)
 # load button end
 
@@ -68,7 +68,7 @@ load_button.grid(row=0, column=2, padx=50)
 
 # about us button start
 about_button = Button(root, text="About Us", width=10, height=1, relief="solid",
-                      borderwidth=1, bg="#bdbdbd", command=about_us_info)
+                      borderwidth=1, bg="#bdbdbd", command=about_us_info , padx=20,pady=10)
 about_button.pack(pady=0)
 # about us button start
 

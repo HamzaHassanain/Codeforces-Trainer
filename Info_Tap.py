@@ -36,12 +36,12 @@ def on_generate():
 
 
 # Main GUI start
-root = Tk()
-root.title("Check & Generate")
-root.geometry("400x300")
-root.minsize(400, 300)
-root.configure(bg="#ededed")
-root.option_add("*Font", ("Arial", 12))
+InfoTapRoot = Tk()
+InfoTapRoot.title("Check & Generate")
+InfoTapRoot.geometry("400x300")
+InfoTapRoot.minsize(400, 300)
+InfoTapRoot.configure(bg="#ededed")
+InfoTapRoot.option_add("*Font", ("Arial", 12))
 # Main GUI end
 
 # Style Spinners start
@@ -50,27 +50,27 @@ style.configure("TSpinbox", relief="solid", borderwidth=1)
 # Style Spinners end
 
 # Handle Input start
-Label(root, text="Enter Codeforces Handle:", bg="#ededed").pack(pady=5)
-handle_entry = Entry(root, font=("Arial", 12), width=30,
+Label(InfoTapRoot, text="Enter Codeforces Handle:", bg="#ededed").pack(pady=5)
+handle_entry = Entry(InfoTapRoot, font=("Arial", 12), width=30,
                      relief="solid", borderwidth=1)
 handle_entry.pack(pady=5)
 # Handle Input end
 
 # Status Label start
-status_label = Label(root, text="", fg="red", bg="#ededed")
+status_label = Label(InfoTapRoot, text="", fg="red", bg="#ededed")
 status_label.pack(pady=5)
 # Status Label end
 
 # Check Button start
-check_button = Button(root, text="Check", bg="#bdbdbd", borderwidth=1,
+check_button = Button(InfoTapRoot, text="Check", bg="#bdbdbd", borderwidth=1,
                       relief="solid", command=check_handle)
 check_button.pack(pady=5)
 # Check Button end
 
 # Spinners start
-Label(root, text="Choose Rating Range and Number of Problems:",
+Label(InfoTapRoot, text="Choose Rating Range and Number of Problems:",
       bg="#ededed").pack(pady=5)
-rating_frame = Frame(root, bg="#ededed")
+rating_frame = Frame(InfoTapRoot, bg="#ededed")
 rating_frame.pack(pady=5)
 
 # Rating From Spinner start
@@ -100,10 +100,10 @@ problems_spinner.grid(row=0, column=5, padx=5)
 # Spinners end
 
 # Generate Button start
-generate_button = Button(root, text="Generate", command=on_generate, state="disabled",
+generate_button = Button(InfoTapRoot, text="Generate", command=on_generate, state="disabled",
                          bg="#bdbdbd", borderwidth=1, relief="solid")
 generate_button.pack(pady=20)
 # Generate Button end
 
-root.mainloop()
+InfoTapRoot.mainloop()
 # create_gui function end

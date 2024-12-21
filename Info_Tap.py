@@ -1,8 +1,13 @@
 from tkinter import *
 from tkinter import messagebox, ttk
 import requests
+# import threading
+# import queue
 
 from TasksPage import create_tasks_page
+
+from loader import fetch_random_unsolved_problmes_of_rate, write_tasks
+
 # Check Function start
 
 
@@ -11,13 +16,33 @@ from TasksPage import create_tasks_page
 # Generate Button Function start
 
 
-def on_generate():
-    #   messagebox.showinfo("Generate", "This will lead to another page.")
-    # Generate Button Function end
-    create_tasks_page().mainloop()
-
-
 def create_info_tap():
+    def on_generate():
+
+        rating_from = int(rating_from_spinner.get())
+        rating_to = int(rating_to_spinner.get())
+        problems_count = int(problems_spinner.get())
+        handle = (handle_entry.get())
+
+        try:
+
+            tasksList = fetch_random_unsolved_problmes_of_rate(
+                problems_count, rating_from, rating_to, handle)
+            if len(tasksList) == 0:
+                messagebox.showinfo(
+                    "No Problems Found", "No problems found in the given rating range")
+            else:
+                messagebox.showinfo(
+                    "Problems Found", "Problems found successfully")
+                for task in tasksList:
+                    print(task.name, task.link, task.state)
+                write_tasks(tasksList)
+                create_tasks_page().mainloop()
+        except Exception as e:
+            print(e)
+            messagebox.showinfo("Error", "Cannot fetch problems")
+
+        # create_tasks_page().mainloop()
 
     def check_handle():
         handle = handle_entry.get()

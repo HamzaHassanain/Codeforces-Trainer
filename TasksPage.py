@@ -1,16 +1,10 @@
 import tkinter as tk
 import webbrowser
-
+from Task import Task
 # Define the Task class
 
 
 def create_tasks_page():
-
-    class Task:
-        def __init__(self, name, link, state):
-            self.name = name
-            self.link = link
-            self.state = state
 
     # Sample task list
     tasks = [

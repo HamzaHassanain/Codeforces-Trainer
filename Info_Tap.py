@@ -6,7 +6,7 @@ import requests
 
 from TasksPage import create_tasks_page
 
-from loader import fetch_random_unsolved_problmes_of_rate, write_tasks
+from loader import fetch_random_unsolved_problmes_of_rate, write_tasks, write_handle
 
 # Check Function start
 
@@ -17,6 +17,7 @@ from loader import fetch_random_unsolved_problmes_of_rate, write_tasks
 
 
 def create_info_tap():
+
     def on_generate():
 
         rating_from = int(rating_from_spinner.get())
@@ -37,6 +38,9 @@ def create_info_tap():
                 for task in tasksList:
                     print(task.name, task.link, task.state)
                 write_tasks(tasksList)
+                write_handle(handle)
+
+                InfoTapRoot.destroy()
                 create_tasks_page().mainloop()
         except Exception as e:
             print(e)

@@ -1,9 +1,10 @@
 from tkinter import *
 from tkinter import messagebox
 # open the new window start
+from tkinter import filedialog
 
 from Info_Tap import create_info_tap
-
+from TasksPage import create_tasks_page
 root = Tk()
 # InfoTapRoot.deiconify()
 # InfoTapRoot.withdraw()
@@ -15,6 +16,7 @@ root = Tk()
 
 
 def open_info_tap():
+    root.destroy()
     create_info_tap().mainloop()
 
 # open the new window end
@@ -30,7 +32,21 @@ def about_us_info():
 
 
 def load_tap():
-    messagebox.showinfo("Load", "This will lead to another page.")
+    try:
+        filename = filedialog.askopenfilename(
+            filetypes=[("Codeforces Trainer Files", "*.cft")])
+
+        if filename:
+            # copy the content to db.cft
+
+            with open(filename, "r") as file:
+                with open("db.cft", "w") as db:
+                    db.write(file.read())
+        root.destroy()
+        create_tasks_page().mainloop()
+    except Exception as e:
+        print(e)
+        messagebox.showinfo("Error", "Cannot load file")
 # load function end
 
 
@@ -54,13 +70,13 @@ buttons_frame = Frame(root, bg="#ededed")
 buttons_frame.pack(pady=40)
 # new button start
 new_button = Button(buttons_frame, text="New", width=5, height=1, relief="solid",
-                    borderwidth=1, bg="#bdbdbd", command=open_info_tap ,padx=20,pady=10)
+                    borderwidth=1, bg="#bdbdbd", command=open_info_tap, padx=20, pady=10)
 new_button.grid(row=0, column=1, padx=50)
 # new button end
 
 # load button start
 load_button = Button(buttons_frame, text="Load", width=5, height=1, relief="solid",
-                     borderwidth=1, bg="#bdbdbd", command=load_tap , padx=20,pady=10)
+                     borderwidth=1, bg="#bdbdbd", command=load_tap, padx=20, pady=10)
 load_button.grid(row=0, column=2, padx=50)
 # load button end
 
@@ -68,7 +84,7 @@ load_button.grid(row=0, column=2, padx=50)
 
 # about us button start
 about_button = Button(root, text="About Us", width=10, height=1, relief="solid",
-                      borderwidth=1, bg="#bdbdbd", command=about_us_info , padx=20,pady=10)
+                      borderwidth=1, bg="#bdbdbd", command=about_us_info, padx=20, pady=10)
 about_button.pack(pady=0)
 # about us button start
 

@@ -7,6 +7,45 @@ loaded = False
 file_name = "db.cft"
 
 
+def write_handle(handle):
+    global file_name
+    # append the handle to the end of the file_name
+    with open(file_name, "a") as file:
+        file.write(handle + "\n")
+
+
+def read_handle():
+    global file_name
+    # read the handle from the end of the file_name
+    with open(file_name, "r") as file:
+        lines = file.readlines()
+        return lines[-1].strip()
+
+
+def load_tasks(file=file_name):
+    tasks = []
+
+    try:
+        with open(file, "r") as file:
+            lines = file.readlines()
+            for i in range(0, len(lines), 5):
+                name = lines[i].strip()
+                if i+1 >= len(lines):
+                    break
+                link = lines[i+1].strip()
+                state = lines[i+2].strip()
+                contestId = int(lines[i+3].strip())
+                index = lines[i+4].strip()
+                tasks.append(Task(name, link, state))
+                tasks[-1].contestId = contestId
+                tasks[-1].index = index
+
+            return tasks
+    except Exception as e:
+        print(e)
+        return []
+
+
 def make_task(problem, state):
     link = f"https://codeforces.com/problemset/problem/{
         problem['contestId']}/{problem['index']}"
@@ -28,8 +67,14 @@ def write_tasks(tasks):
                        task.contestId}\n{task.index}\n")
 
 
-def get_status(contestId, index, my_handle):
+def get_status(contestId, index, my_handle, doRefresh=False):
     global solved, not_solved, loaded
+
+    if doRefresh:
+        loaded = False
+        not_solved.clear()
+        solved.clear()
+
     try:
         if not loaded:
             response2 = requests.get(

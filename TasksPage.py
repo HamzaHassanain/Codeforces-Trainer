@@ -2,26 +2,64 @@ import tkinter as tk
 import webbrowser
 from Task import Task
 # Define the Task class
+from tkinter import filedialog
+from loader import load_tasks, loaded, solved, not_solved, get_status, read_handle, write_tasks, write_handle
+from tkinter import messagebox
 
 
 def create_tasks_page():
 
-    # Sample task list
-    tasks = [
-        Task("Task 1", "https://example.com/1", "AC"),
-        Task("Task 2", "https://example.com/2", "WA"),
-        Task("Task 3", "https://example.com/3", "NA"),
-
-    ]
-
     # Define functions
+    tasks = load_tasks()
 
     def save():
-        print("Save button clicked!")
+        # open file viwer to save the file db.cft to another cft file
+        # creatre a file dialog to save the file
+        filename = filedialog.asksaveasfilename(
+            filetypes=[("Codeforces Trainer Files", "*.cft")])
+        try:
+
+            if filename:
+
+                if not filename.endswith(".cft"):
+                    filename += ".cft"
+                with open("db.cft", "r") as file:
+                    with open(filename, "w") as db:
+                        db.write(file.read())
+            messagebox.showinfo("File Saved", "File saved successfully")
+
+        except Exception as e:
+            print(e)
+            messagebox.showinfo("Error", "Cannot save file")
 
     def refresh():
-        print("Refresh button clicked!")
+        global loaded, solved, not_solved
 
+        try:
+
+            tasks = load_tasks()
+            handle = read_handle()
+            # print("refreshed", tasks)
+
+            didRef = True
+            for task in tasks:
+                task.state = get_status(
+                    task.contestId, task.index, handle, didRef)
+                didRef = False
+            print("refreshed")
+            for task in tasks:
+                print(task.name, task.link, task.state)
+            write_tasks(tasks)
+            write_handle(handle)
+
+            # clear old data from the table
+
+            Page2Root.destroy()
+
+            create_tasks_page().mainloop()
+        except Exception as e:
+            print(e)
+            messagebox.showinfo("Error", "Cannot refresh")
     # Initialize main window
     Page2Root = tk.Tk()
     Page2Root.title("Codeforces Trainer | Tasks")
@@ -35,11 +73,12 @@ def create_tasks_page():
     Page2Root.rowconfigure(0, weight=1)     # Row expands
 
     # Buttons
-    save_button = tk.Button(Page2Root, text="Save", command=save, width=10,relief="solid",bd=1,bg="#bdbdbd")
+    save_button = tk.Button(Page2Root, text="Save", command=save,
+                            width=10, relief="solid", bd=1, bg="#bdbdbd")
     save_button.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
     refresh_button = tk.Button(
-        Page2Root, text="Refresh", command=refresh, width=10,relief="solid",bd=1,bg="#bdbdbd")
+        Page2Root, text="Refresh", command=refresh, width=10, relief="solid", bd=1, bg="#bdbdbd")
     refresh_button.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
 
     # Create the table header

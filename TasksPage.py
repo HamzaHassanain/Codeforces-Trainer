@@ -32,18 +32,20 @@ def create_tasks_page():
     Page2Root = tk.Tk()
     Page2Root.title("Codeforces Trainer | Tasks")
     Page2Root.geometry("480x480")
-
+    Page2Root.configure(bg="#ededed")
+    Page2Root.option_add("*Font", ("Arial", 12))
+    Page2Root.minsize(200, 200)
     # Configure the grid to make it responsive
     Page2Root.columnconfigure(0, weight=1)  # First column expands
     Page2Root.columnconfigure(1, weight=1)  # Second column expands
     Page2Root.rowconfigure(0, weight=1)     # Row expands
 
     # Buttons
-    save_button = tk.Button(Page2Root, text="Save", command=save, width=10)
+    save_button = tk.Button(Page2Root, text="Save", command=save, width=10,relief="solid",bd=1,bg="#bdbdbd")
     save_button.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
     refresh_button = tk.Button(
-        Page2Root, text="Refresh", command=refresh, width=10)
+        Page2Root, text="Refresh", command=refresh, width=10,relief="solid",bd=1,bg="#bdbdbd")
     refresh_button.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
 
     # Create the table header
@@ -68,7 +70,7 @@ def create_tasks_page():
                         url=task.link: open_link(url))  # Link click handler
 
         # State cell
-        state_color = "green" if task.state == "AC" else "red" if task.state == "WA" else "purple"
+        state_color = "#31bf21" if task.state == "AC" else "#d42424" if task.state == "WA" else "#888a89"
         state_label = tk.Label(Page2Root, text=task.state, bg=state_color,
                                borderwidth=1, relief="solid", padx=10, pady=5)
         state_label.grid(row=row_index+1, column=1, sticky="nsew")

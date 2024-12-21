@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import webbrowser
 
-
 # Define the Task class
+
+
 class Task:
     def __init__(self, name, link, state):
         self.name = name
@@ -16,13 +17,7 @@ tasks = [
     Task("Task 1", "https://example.com/1", "AC"),
     Task("Task 2", "https://example.com/2", "WA"),
     Task("Task 3", "https://example.com/3", "NA"),
-    Task("Task 4", "https://example.com/4", "AC"),
-    Task("Task 5", "https://example.com/5", "WA"),
-    Task("Task 1", "https://example.com/1", "AC"),
-    Task("Task 2", "https://example.com/2", "WA"),
-    Task("Task 3", "https://example.com/3", "NA"),
-    Task("Task 4", "https://example.com/4", "AC"),
-    Task("Task 5", "https://example.com/5", "WA"),
+
 ]
 
 

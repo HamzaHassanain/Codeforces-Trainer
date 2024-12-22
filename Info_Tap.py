@@ -14,19 +14,15 @@ from loader import fetch_random_unsolved_problmes_of_rate, write_tasks, write_ha
 # Check Function end
 
 # Generate Button Function start
-
-
 def create_info_tap():
 
     def on_generate():
-
         rating_from = int(rating_from_spinner.get())
         rating_to = int(rating_to_spinner.get())
         problems_count = int(problems_spinner.get())
         handle = (handle_entry.get())
 
         try:
-
             tasksList = fetch_random_unsolved_problmes_of_rate(
                 problems_count, rating_from, rating_to, handle)
             if len(tasksList) == 0:

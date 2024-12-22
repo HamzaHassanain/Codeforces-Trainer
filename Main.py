@@ -3,8 +3,13 @@ from tkinter import messagebox
 # open the new window start
 from tkinter import filedialog
 
+
+from connection import write_cft_to_sql
+
+
 from Info_Tap import create_info_tap
 from TasksPage import create_tasks_page
+
 root = Tk()
 # InfoTapRoot.deiconify()
 # InfoTapRoot.withdraw()
@@ -38,10 +43,10 @@ def load_tap():
 
         if filename:
             # copy the content to db.cft
-
             with open(filename, "r") as file:
                 with open("db.cft", "w") as db:
                     db.write(file.read())
+        write_cft_to_sql()  # add the content of the chosen file to the sqllite3
         root.destroy()
         create_tasks_page().mainloop()
     except Exception as e:

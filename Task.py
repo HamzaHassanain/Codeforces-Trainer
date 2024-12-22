@@ -1,5 +1,4 @@
 class Task:
-
     def __init__(self, name, link, state):
         self.name = name
         self.link = link

@@ -1,5 +1,7 @@
 import requests
 from Task import Task
+from connection import load_tasks_table, delete_db, create_db, insert
+
 
 solved = set()
 not_solved = set()
@@ -22,9 +24,24 @@ def read_handle():
         return lines[-1].strip()
 
 
-def load_tasks(file=file_name):
+def tasks_tuple_to_tasks(tasks_tuple):
+    # id, name, link, state, contestId, index
+
     tasks = []
 
+    for task in tasks_tuple:
+        tasks.append(Task(task[1], task[2], task[3]))
+        tasks[-1].contestId = task[4]
+        tasks[-1].index = task[5]
+
+    for task in tasks:
+        print(task.name, task.link, task.state)
+
+    return tasks
+
+
+def load_tasks(file=file_name):
+    tasks = []
     try:
         with open(file, "r") as file:
             lines = file.readlines()
@@ -39,11 +56,30 @@ def load_tasks(file=file_name):
                 tasks.append(Task(name, link, state))
                 tasks[-1].contestId = contestId
                 tasks[-1].index = index
+        tasks_tuple = load_tasks_table()
 
-            return tasks
+        # print(tasks_tuple_to_tasks(tasks_tuple))
+        return tasks_tuple_to_tasks(tasks_tuple)
     except Exception as e:
         print(e)
         return []
+
+
+def write_tasks(tasks):
+    global file_name
+
+    delete_db()
+    create_db()
+
+    for task in tasks:
+        insert(task.name, task.link, task.state, task.contestId, task.index)
+
+    # write to db file
+
+    with open(file_name, "w") as file:
+        for task in tasks:
+            file.write(f"{task.name}\n{task.link}\n{task.state}\n{
+                       task.contestId}\n{task.index}\n")
 
 
 def make_task(problem, state):
@@ -58,15 +94,6 @@ def make_task(problem, state):
     return tsk
 
 
-def write_tasks(tasks):
-    global file_name
-
-    with open(file_name, "w") as file:
-        for task in tasks:
-            file.write(f"{task.name}\n{task.link}\n{task.state}\n{
-                       task.contestId}\n{task.index}\n")
-
-
 def get_status(contestId, index, my_handle, doRefresh=False):
     global solved, not_solved, loaded
 
@@ -74,7 +101,6 @@ def get_status(contestId, index, my_handle, doRefresh=False):
         loaded = False
         not_solved.clear()
         solved.clear()
-
     try:
         if not loaded:
             response2 = requests.get(
